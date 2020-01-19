@@ -6,7 +6,7 @@ type scrPoint
 End Type
 
 type console
-	public:
+public:
     declare constructor (as string, as string, as integer, as integer, as integer, as integer)
     declare sub Quit()
     
@@ -24,15 +24,15 @@ type console
     declare function GetScreenWidth() as integer
     declare function GetScreenHeight() as integer
 	
-    private:
+private:
     as SDL_Window ptr win
     as SDL_Renderer ptr render
     as SDL_Texture ptr chars
     
-    ' Кол-во символов в одной строке изображения
+    ' ГЉГ®Г«-ГўГ® Г±ГЁГ¬ГўГ®Г«Г®Гў Гў Г®Г¤Г­Г®Г© Г±ГІГ°Г®ГЄГҐ ГЁГ§Г®ГЎГ°Г Г¦ГҐГ­ГЁГї
     as integer charsInLine
-    ' Ширина и высота символа
-   	as integer charW, charH
+    ' ГГЁГ°ГЁГ­Г  ГЁ ГўГ»Г±Г®ГІГ  Г±ГЁГ¬ГўГ®Г«Г 
+    as integer charW, charH
     
     as integer cursorX, cursorY
     as SDL_Color curForeColor, curBackColor
@@ -79,7 +79,7 @@ constructor console(windowName as string, path as string, maxX as integer, maxY 
 	
 	SDL_FreeSurface(surface)
 
-	' Установить цвет по-умолчанию
+	' Г“Г±ГІГ Г­Г®ГўГЁГІГј Г¶ГўГҐГІ ГЇГ®-ГіГ¬Г®Г«Г·Г Г­ГЁГѕ
 	setColor(7,0)
 end constructor
 
@@ -95,15 +95,15 @@ sub console.putChar(code as scrPoint, x as integer, y as integer)
 	dim as SDL_Rect scrPos = (x*charW, y*charH, charW-1, charH-1)
 	dim as SDL_Rect back = (x*charW, y*charH, charW, charH)
 	
-	' Определить координаты символа на текстуре
+	' ГЋГЇГ°ГҐГ¤ГҐГ«ГЁГІГј ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» Г±ГЁГ¬ГўГ®Г«Г  Г­Г  ГІГҐГЄГ±ГІГіГ°ГҐ
 	texturePos.x = int(frac(code.char/charsInLine)*charsInLine)*charW
 	texturePos.y = int(code.char/charsInLine)*charH
 	
-	' Отрисовать фон символа
+	' ГЋГІГ°ГЁГ±Г®ГўГ ГІГј ГґГ®Г­ Г±ГЁГ¬ГўГ®Г«Г 
 	SDL_SetRenderDrawColor(render, code.bg.r, code.bg.g, code.bg.b, 255)
 	SDL_RenderFillRect(render, @back)
 	
-	' Отрисовать символ
+	' ГЋГІГ°ГЁГ±Г®ГўГ ГІГј Г±ГЁГ¬ГўГ®Г«
 	SDL_SetTextureColorMod(chars, code.fg.r, code.fg.g, code.fg.b)
 	SDL_RenderCopy(render, chars, @texturePos, @scrPos)
 End Sub
